@@ -1,0 +1,6 @@
+langchain
+beautifulsoup4
+playwright
+html2text
+boto3
+streamlit

@@ -1,4 +1,5 @@
 langchain
+python-dotenv
 beautifulsoup4
 playwright
 html2text

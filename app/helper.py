@@ -20,6 +20,11 @@ interest_to_link = {
     # TODO erweitern
 }
 
+def _get_bedrock_llm():
+    bedrock_client = boto3.client('bedrock-runtime', region_name='us-east-1')
+    llm = Bedrock(model_id=model_name, client=bedrock_client, region_name="us-east-1")
+    return llm
+
 def get_headlines(interest):
     # Load HTML
     links = [interest_to_link.get(interest, "https://www.wsj.com/")]
@@ -41,7 +46,7 @@ def get_headlines(interest):
         prompt_headlines
     )
     prompt = prompt_template.format(num_headlines=3, interest=interest, site_text=site)
-    llm = Bedrock(model_id=model_name, credentials_profile_name="default", region_name="us-east-1")
+    llm = _get_bedrock_llm()
     res = llm(prompt)
     return res, links
 
@@ -67,7 +72,7 @@ def get_newsfeed(interest, age):
         generation = "Senior citizens"
 
     prompt = prompt_template.format(headlines=headlines, generation=generation)
-    llm = Bedrock(model_id=model_name, credentials_profile_name="default", region_name="us-east-1")
+    llm = _get_bedrock_llm()
     print(prompt)
     print("===========================")
     res = llm(prompt)
@@ -93,7 +98,7 @@ def t2speech(text, speaker):
 
 
 def get_list_as_json(list):
-    llm = Bedrock(model_id=model_name, credentials_profile_name="default", region_name="us-east-1")
+    llm = _get_bedrock_llm()
 
     res = llm(f"""
         Give me this list of headlines in json format:

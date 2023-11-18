@@ -1,6 +1,7 @@
 import streamlit as st
 import helper
 import json
+import os
 
 class User:
     def __init__(self, first_name, last_name, interests):
@@ -35,7 +36,11 @@ if cur_user is not None:
     for i in cur_user.interests:
         with st.spinner("Fetching newsfeed🤖"):
             st.write(f"### {i}")
-            ls, links = helper.get_newsfeed(i)
+            try:
+                ls, links = helper.get_newsfeed(i)
+            except Exception as e:
+                with st.spinner("Looks like this is your first time here... setting up..."):
+                    os.system("playwright install")
             st.write(ls)
             audio = helper.t2speech(ls)
             st.audio(audio)

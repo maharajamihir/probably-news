@@ -44,6 +44,7 @@ if cur_user is not None:
             except Exception as e:
                 with st.spinner("Looks like this is your first time here... setting up..."):
                     os.system("playwright install")
+                    st.error(e)
             # st.write("in json:")
             # ls_json = helper.get_list_as_json(ls)
             # st.write(ls_json)

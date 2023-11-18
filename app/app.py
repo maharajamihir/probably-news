@@ -3,6 +3,10 @@ import helper
 import json
 import os
 
+
+REGION = 'us-east-1'
+os.environ['AWS_DEFAULT_REGION'] = REGION # set region to us-east-1 because endpoint is there    
+    
 class User:
     def __init__(self, first_name, last_name, interests):
         self.first_name = first_name

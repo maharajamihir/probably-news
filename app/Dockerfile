@@ -15,7 +15,7 @@ COPY templates/ templates/
 
 EXPOSE 80
 
-ENTRYPOINT [ "streamlit", "run", "app.py", \
+ENTRYPOINT [ "streamlit", "run", "App.py", \
     "--server.enableCORS", "true", \
              "--server.port", "80", \
              "--browser.serverPort", "80"]

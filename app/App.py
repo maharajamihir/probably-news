@@ -21,7 +21,8 @@ users = [
    User(first_name="Alfred", last_name="Nguyen", interests=["Tech", "Cars", "Sports"]), 
    User(first_name="Mia", last_name="Heinz", interests=["Politics", "Entertainment", "Tech"]), 
    User(first_name="Mihir", last_name="Mahajan", interests=["Sports", "Tech", "Finance"]), 
-   User(first_name="TestUser", last_name="TestUser", interests=["Tech"])
+   User(first_name="TestUser", last_name="TestUser", interests=["Tech"]),
+   User(first_name="Test2", last_name="Test2", interests=["Sports"])
     ]
 
 

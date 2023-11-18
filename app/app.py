@@ -37,14 +37,14 @@ if cur_user is not None:
         with st.spinner("Fetching newsfeed🤖"):
             st.write(f"### {i}")
             try:
-                ls, links = helper.get_newsfeed(i)
-                st.write(ls)
-                audio = helper.t2speech(ls)
+                news = helper.get_newsfeed(i, 65)
+                st.write(news)
+                audio = helper.t2speech(news, "Amy")
                 st.audio(audio)
             except Exception as e:
                 with st.spinner("Looks like this is your first time here... setting up..."):
                     os.system("playwright install")
-                    st.error(e)
+                    e
             # st.write("in json:")
             # ls_json = helper.get_list_as_json(ls)
             # st.write(ls_json)

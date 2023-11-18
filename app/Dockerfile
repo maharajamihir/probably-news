@@ -8,6 +8,8 @@ RUN pip install -r requirements.txt
 
 COPY app.py app.py
 COPY helper.py helper.py
+COPY pages/ pages/
+COPY templates/ templates/
 
 EXPOSE 80
 

@@ -1,5 +1,6 @@
 from langchain.document_loaders import AsyncChromiumLoader
 from langchain.document_transformers import BeautifulSoupTransformer
+from langchain.prompts import PromptTemplate
 from langchain.llms import Bedrock
 import boto3
 
@@ -8,52 +9,80 @@ model_name = "anthropic.claude-v2"
 
 
 interest_to_link = {
-    "Tech": "https://www.focus.de/digital/",
-    "Politics": "https://www.focus.de/politik/",
-    "Finance": "https://www.focus.de/finanzen/",
-    "Cars": "https://www.focus.de/auto/",
-    "Entertainment": "https://www.focus.de/kultur/",
-    "Sports": "https://www.focus.de/sport/"
+    "Tech": "https://www.wsj.com/tech",
+    "Politics": "https://www.wsj.com/politics",
+    "Finance": "https://www.wsj.com/finance",
+    "Arts&Culture": "https://www.wsj.com/arts-culture",
+    "Business": "https://www.wsj.com/business",
+    "Sports": "https://www.wsj.com/sports",
+    "Lifestyle": "https://www.wsj.com/lifestyle",
+    "Personal Finance": "https://www.wsj.com/personal-finance"
     # TODO erweitern
 }
 
-def get_newsfeed(interest):
+def get_headlines(interest):
     # Load HTML
-    links = [interest_to_link.get(interest, "https://www.focus.de/")]
-    # links = "https://www.wsj.com/"
+    links = [interest_to_link.get(interest, "https://www.wsj.com/")]
+    # links = ""
     loader = AsyncChromiumLoader(links)
     html = loader.load()
 
     # Transform
     bs_transformer = BeautifulSoupTransformer()
     docs_transformed = bs_transformer.transform_documents(html
-                                                       , tags_to_extract=["h3"]
-                                                       # , tags_to_extract=["span"]
+                                                       # , tags_to_extract=["h3"]
+                                                       , tags_to_extract=["span"]
                                                         )
     # Result
     site = docs_transformed[0].page_content[0:5000]
-
+    with open("templates/get_headlines.txt") as f:
+        prompt_headlines = f.read()
+    prompt_template = PromptTemplate.from_template(
+        prompt_headlines
+    )
+    prompt = prompt_template.format(num_headlines=3, interest=interest, site_text=site)
     llm = Bedrock(model_id=model_name, credentials_profile_name="default", region_name="us-east-1")
-
-    res = llm(f"""
-        Give me the top five news headlines from this news website, that fit into the category {interest}:
-
-        
-        {site}
-    """)
-
+    res = llm(prompt)
     return res, links
 
-def t2speech(text):
 
+def get_newsfeed(interest, age):
+    headlines,_ = get_headlines(interest=interest)
+    with open("templates/personalize_news_anchor.txt") as f:
+        news_update = f.read()
+    prompt_template = PromptTemplate.from_template(
+        news_update
+    )
+    generation = ""
+
+    if age < 13:
+        generation = "Children"
+    elif age < 24:
+        generation = "Gen-Z"
+    elif age < 35:
+        generation = "Young Adults"
+    elif age < 60: 
+        generation = "Adults"
+    else:
+        generation = "Senior citizens"
+
+    prompt = prompt_template.format(headlines=headlines, generation=generation)
+    llm = Bedrock(model_id=model_name, credentials_profile_name="default", region_name="us-east-1")
+    print(prompt)
+    print("===========================")
+    res = llm(prompt)
+    return res
+
+    
+def t2speech(text, speaker):
     text = text.replace("\n", ".\n")
     client = boto3.client("polly")
     response = client.synthesize_speech(
         Engine='neural',
-        LanguageCode='de-DE',
+        LanguageCode='en-US',
         OutputFormat='mp3',
         Text=text,
-        VoiceId='Vicki'
+        VoiceId=speaker
     )
     file = open('speech.mp3', 'wb')
     audio = response['AudioStream'].read()
@@ -79,3 +108,8 @@ def get_article_summary(articles, links):
     html = loader.load()
     print(html)
     return articles[0]
+
+
+if __name__ == "__main__":
+    news = get_newsfeed("Tech", 8)
+    print(news)

@@ -1,0 +1,4 @@
+
+Give me the top {num_headlines} news headlines from this news website, that fit into the category {interest}:
+
+{site_text}

@@ -1,4 +1,4 @@
 You are a news anchor in a show for {generation}.
-Write a daily news update summarising these headlines. Make it suitable for {generation}
+Write a personal daily news update summarising these headlines. Make it for {name}, who is a {age} years old {gender} person.
 
 {headlines}

@@ -7,6 +7,7 @@ import io
 import boto3
 import json
 import base64
+import streamlit as st
 
 
 model_name = "anthropic.claude-v2"
@@ -15,7 +16,7 @@ model_name = "anthropic.claude-v2"
 interest_to_link = {
     "Tech": {
         "link": "https://www.wsj.com/tech",
-        "anchor": "Kajal",
+        "anchor": "Kajal", # works
         },
     "Politics": {
         "link": "https://www.wsj.com/politics",
@@ -23,19 +24,19 @@ interest_to_link = {
         },
     "Finance": {
         "link": "https://www.wsj.com/finance",
-        "anchor": "Joey",
+        "anchor": "Amy", 
         },
     "Arts&Culture": {
         "link": "https://www.wsj.com/arts-culture",
-        "anchor": "Léa",
+        "anchor": "Lea",
         },
     "Business": {
         "link": "https://www.wsj.com/business",
-        "anchor": "Joey",
+        "anchor": "Joey", #works
         },
     "Sports": {
         "link": "https://www.wsj.com/sports",
-        "anchor": "Joey",
+        "anchor": "Joey", #works 
         },
     "Lifestyle": {
         "link": "https://www.wsj.com/lifestyle",
@@ -196,7 +197,10 @@ def get_subway_surf_vid(topic, audio_clip, template_vid_path):
     import moviepy.editor as mpe
     my_clip = mpe.VideoFileClip(template_vid_path)
     audio_background = mpe.AudioFileClip(audio_clip)
-    final_audio = mpe.CompositeAudioClip([my_clip.audio, audio_background])
+    if "kika" in template_vid_path:
+        final_audio = mpe.CompositeAudioClip([my_clip.audio, audio_background.set_start(10)])
+    else:
+        final_audio = mpe.CompositeAudioClip([my_clip.audio, audio_background])
     final_clip = my_clip.set_audio(final_audio)
     # from moviepy.video.io.ffmpeg_tools import ffmpeg_extract_subclip
     # # ffmpeg_extract_subclip("full.mp4", start_seconds, end_seconds, targetname="cut.mp4")
@@ -245,3 +249,42 @@ def gen_img(news_topic, audio, user):
 if __name__ == "__main__":
     news = get_newsfeed("Tech", 8)
     print(news)
+
+
+def get_streamlit(user):
+    if user == None:
+        return None
+    cur_user = user
+    if cur_user is not None:
+        st.write("## Welcome to your news feed ", cur_user)
+        st.write("### From our data, we have analyzed that you are interested in ", str(cur_user.interests))
+        st.write("We have prepared a custom news feed for you!")
+
+        with st.spinner("Fetching newsfeed🤖"):
+            news,audio = get_newsfeed(cur_user)
+            for i in range(len(news)):
+                st.write(news[i])
+                st.audio(audio[i])
+                try:
+                    if cur_user.generation == "Gen-Z":
+                        file = open(cur_user.interests[i]+'.mp3', 'wb')
+                        file.write(audio[i])
+                        file.close()
+                        news_topic = cur_user.interests[i]
+                        vid_file = get_subway_surf_vid(news_topic,news_topic+".mp3", 'media/subway_surf.mp4')
+                        video_file = open(vid_file, 'rb')
+                        video_bytes = video_file.read()
+                        st.video(video_bytes)
+                    elif cur_user.generation == "Children":
+                        file = open(cur_user.interests[i]+'.mp3', 'wb')
+                        file.write(audio[i])
+                        file.close()
+                        news_topic = cur_user.interests[i]
+                        vid_file = get_subway_surf_vid(news_topic,news_topic+".mp3", 'media/kikaninchen.mp4')
+                        video_file = open(vid_file, 'rb')
+                        video_bytes = video_file.read()
+                        st.video(video_bytes)
+                    else:
+                        st.image(gen_img(cur_user.interests[i], audio[i], cur_user))
+                except Exception:
+                    pass

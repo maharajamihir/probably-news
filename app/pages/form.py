@@ -40,13 +40,28 @@ with st.form("my_form"):
    if submitted:
        st.write("")
        cur_user = helper.User(first_name=first_name,last_name=last_name, age=age, gender=gender, interests=interests, fav_celebs=fav_celeb, sm_user=sm_user)
-if cur_user is not None:
-    st.write("## Welcome to your news feed ", cur_user)
-    st.write("### From our data, we have analyzed that you are interested in ", str(cur_user.interests))
-    st.write("We have prepared a custom news feed for you!")
+helper.get_streamlit(cur_user)
+# if cur_user is not None:
+    # st.write("## Welcome to your news feed ", cur_user)
+    # st.write("### From our data, we have analyzed that you are interested in ", str(cur_user.interests))
+    # st.write("We have prepared a custom news feed for you!")
 
-    with st.spinner("Fetching newsfeed🤖"):
-        news,audio = helper.get_newsfeed(cur_user)
-        for i in range(len(news)):
-            st.write(news[i])
-            st.audio(audio[i])
+    # with st.spinner("Fetching newsfeed🤖"):
+        # news,audio = helper.get_newsfeed(cur_user)
+        # for i in range(len(news)):
+            # st.write(news[i])
+            # st.audio(audio[i])
+            # try:
+                # if cur_user.generation == "Gen-Z":
+                    # file = open(cur_user.interests[i]+'.mp3', 'wb')
+                    # file.write(audio[i])
+                    # file.close()
+                    # news_topic = cur_user.interests[i]
+                    # vid_file = helper.get_subway_surf_vid(news_topic,news_topic+".mp3", 'media/subway_surf.mp4')
+                    # video_file = open(vid_file, 'rb')
+                    # video_bytes = video_file.read()
+                    # st.video(video_bytes)
+                # else:
+                    # st.image(helper.gen_img(cur_user.interests[i], audio[i], cur_user))
+            # except Exception:
+                # pass

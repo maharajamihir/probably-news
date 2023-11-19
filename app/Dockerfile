@@ -13,6 +13,7 @@ COPY App.py App.py
 COPY helper.py helper.py
 COPY pages/ pages/
 COPY templates/ templates/
+COPY assets/ assets/
 
 EXPOSE 80
 

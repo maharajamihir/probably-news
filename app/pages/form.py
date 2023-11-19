@@ -25,13 +25,12 @@ with st.form("my_form"):
    st.write("Let's get to know eachother!")
    first_name = st.text_input("First Name") # fname
    last_name = st.text_input("Last Name") # lname
-   email = st.text_input("Email") # email
    age = st.number_input('Age', min_value=0, max_value=200, step=1) # age
    gender = st.selectbox("Gender", ["Male", "Female", "Other"], index=None, placeholder="Choose an option")
    interests = st.multiselect("Your interests (max 3)", helper.interest_to_link.keys(), max_selections=3)
-   sm_user = st.toggle("Active social media user", value=False)
+   # sm_user = st.toggle("Active social media user", value=False)
    # marital_status = st.selectbox("Marital Status", ["Married", "Single", "its complicated"], index=None, placeholder="Choose an option")
-   fav_celeb = st.multiselect("Your favourite celebs/characters (max 5)", ["Donald Trump", "Drake", "Mark Luxenhofer"], max_selections=5)
+   # fav_celeb = st.multiselect("Your favourite celebs/characters (max 5)", ["Donald Trump", "Drake", "Mark Luxenhofer"], max_selections=5)
 
    checkbox_val = st.checkbox("I agree my info can be used for news generation")
 
@@ -39,7 +38,7 @@ with st.form("my_form"):
    submitted = st.form_submit_button("Submit")
    if submitted:
        st.write("")
-       cur_user = helper.User(first_name=first_name,last_name=last_name, age=age, gender=gender, interests=interests, fav_celebs=fav_celeb, sm_user=sm_user)
+       cur_user = helper.User(first_name=first_name,last_name=last_name, age=age, gender=gender, interests=interests)
 helper.get_streamlit(cur_user)
 # if cur_user is not None:
     # st.write("## Welcome to your news feed ", cur_user)

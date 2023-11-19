@@ -27,7 +27,7 @@ interest_to_link = {
         },
     "Arts&Culture": {
         "link": "https://www.wsj.com/arts-culture",
-        "anchor": "Léa",
+        "anchor": "Niamh",
         },
     "Business": {
         "link": "https://www.wsj.com/business",

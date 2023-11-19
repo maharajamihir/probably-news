@@ -2,7 +2,6 @@ from langchain.document_loaders import AsyncChromiumLoader
 from langchain.document_transformers import BeautifulSoupTransformer
 from langchain.prompts import PromptTemplate
 from langchain.llms import Bedrock
-import moviepy.editor as mpe
 from PIL import Image
 import io
 import boto3
@@ -194,6 +193,7 @@ def get_article_summary(articles, links):
     return articles[0]
 
 def get_subway_surf_vid(topic, audio_clip, template_vid_path):
+    import moviepy.editor as mpe
     my_clip = mpe.VideoFileClip(template_vid_path)
     audio_background = mpe.AudioFileClip(audio_clip)
     final_audio = mpe.CompositeAudioClip([my_clip.audio, audio_background])
@@ -207,7 +207,6 @@ def get_subway_surf_vid(topic, audio_clip, template_vid_path):
     return output_path
 
 def gen_img(news_topic, audio, user):
-    
     prompt = "Generate an image according to this topic: \n\n" + news_topic
     negative_prompts = [
         "poorly rendered",

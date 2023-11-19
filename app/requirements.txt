@@ -5,3 +5,4 @@ html2text
 boto3
 streamlit
 Pillow
+moviepy

@@ -8,6 +8,7 @@ RUN pip install -r requirements.txt
 
 RUN playwright install --with-deps
 
+
 COPY App.py App.py
 COPY helper.py helper.py
 COPY pages/ pages/

@@ -34,17 +34,20 @@ if cur_user is not None:
         for i in range(len(news)):
             st.write(news[i])
             st.audio(audio[i])
-            if cur_user.generation == "Gen-Z":
-                file = open(cur_user.interests[i]+'.mp3', 'wb')
-                file.write(audio[i])
-                file.close()
-                news_topic = cur_user.interests[i]
-                vid_file = helper.get_subway_surf_vid(news_topic,news_topic+".mp3", 'media/subway_surf.mp4')
-                video_file = open(vid_file, 'rb')
-                video_bytes = video_file.read()
-                st.video(video_bytes)
-            else:
-                st.image(helper.gen_img(cur_user.interests[i], audio[i], cur_user))
+            try:
+                if cur_user.generation == "Gen-Z":
+                    file = open(cur_user.interests[i]+'.mp3', 'wb')
+                    file.write(audio[i])
+                    file.close()
+                    news_topic = cur_user.interests[i]
+                    vid_file = helper.get_subway_surf_vid(news_topic,news_topic+".mp3", 'media/subway_surf.mp4')
+                    video_file = open(vid_file, 'rb')
+                    video_bytes = video_file.read()
+                    st.video(video_bytes)
+                else:
+                    st.image(helper.gen_img(cur_user.interests[i], audio[i], cur_user))
+            except Exception:
+                pass
 
 
     # for i in cur_user.interests:

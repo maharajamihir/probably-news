@@ -1,13 +1,10 @@
 # ProbablyNews - HackaTUM 2023
-
 ![logo](logo.png)
 
 ## Overview
-
 ProbablyNews is an innovative project developed during the HackaTUM event in November 2023. This repository showcases the end-to-end personalized news show created using Generative AI. The project involves web scraping of articles, advanced prompting methods, and integration with cutting-edge technologies such as the *Claude-2* model via *Amazon Bedrock*. Additionally, synthetic news anchors were emulated using deep fakes and the text-to-voice model *Amazon Polly*.
 
 ## Features
-
 - **Generative AI News Shows:** Built a comprehensive solution for generating personalized news shows for diverse age groups, including children, teenagers, adults, and seniors.
 
 - **Web Scraping:** Utilized web scraping techniques to gather relevant articles and information from various sources.
@@ -19,6 +16,5 @@ ProbablyNews is an innovative project developed during the HackaTUM event in Nov
 - **Synthetic News Anchors:** Employed deep fakes and the advanced text-to-voice model *Amazon Polly* to create realistic and engaging synthetic news anchors.
 
 ## Acknowledgments
-
 We would like to express our gratitude to the organizers of HackaTUM for providing a platform to showcase innovative projects and collaborate with like-minded individuals.
 License

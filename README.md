@@ -19,6 +19,5 @@ ProbablyNews is an innovative project developed during the HackaTUM event in Nov
 - **Synthetic News Anchors:** Employed deep fakes and the advanced text-to-voice model *Amazon Polly* to create realistic and engaging synthetic news anchors.
 
 ## Acknowledgments
-
 We would like to express our gratitude to the organizers of HackaTUM for providing a platform to showcase innovative projects and collaborate with like-minded individuals.
 License
